@@ -2,8 +2,8 @@
   <div class="todo-container">
     <div class="todo-wrap">
       <Header :addTodo="addTodo"></Header>
-      <Main :todos="todos" :updateOne="updateOne"></Main>
-      <Footer></Footer>
+      <Main :todos="todos" :updateOne="updateOne" :deleteOne="deleteOne"></Main>
+      <Footer :todos="todos" :updateAll="updateAll" :deleteAll="deleteAll"></Footer>
     </div>
   </div>
 </template>
@@ -21,11 +21,7 @@ export default {
   },
   data(){
     return {
-      todos:[
-        {id:1,content:'谢可寅',isOver:true},
-        {id:2,content:'韦豆豆',isOver:false},
-        {id:3,content:'蔡蔡',isOver:true},
-      ]
+      todos:JSON.parse(localStorage.getItem('todos_key')) || []
     }
   },
   methods:{
@@ -34,8 +30,25 @@ export default {
     },
     updateOne(index,val){
       this.todos[index].isOver=val
+    },
+    deleteOne(index){
+      this.todos.splice(index,1)
+    },
+    updateAll(val){
+      this.todos.forEach(item=>item.isOver=val)
+    },
+    deleteAll(){
+      this.todos=this.todos.filter(item=>!item.isOver)
+    }
+  },
+  watch:{
+    deep:true,
+    handler(newVal,oldVal){
+      localStorage.setItem('todos_key',JSON.stringify(newVal))
     }
   }
+
+  
 }
 </script>
 

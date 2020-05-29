@@ -4,7 +4,7 @@
       <input type="checkbox" v-model="isCheck" />
       <span>{{ todo.content }}</span>
     </label>
-    <button class="btn btn-danger" v-show="isShow">删除</button>
+    <button class="btn btn-danger" v-show="isShow" @click="deleteT">删除</button>
   </li>
 </template>
 
@@ -13,7 +13,8 @@ export default {
   props:{
     todo:Object,
     index:Number,
-    updateOne:Function
+    updateOne:Function,
+    deleteOne:Function
   },
   computed:{
     isCheck:{
@@ -41,6 +42,9 @@ export default {
         this.isShow=false
         this.myClass='leaveClass'
       }
+    },
+    deleteT(){
+      this.deleteOne(this.index)
     }
   }
 }
